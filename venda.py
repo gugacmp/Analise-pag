@@ -1,7 +1,9 @@
 import random
 import time
 import datetime
-from tqdm import tqdm 
+from tqdm import tqdm
+import pandas as pd
+import numpy as np
 
 print("==============================================================")
 print("                          VENDA                               ")
@@ -83,7 +85,21 @@ processo()
 
 print(f'Forma de pagamento : {dinheiro}')
 
+datas = pd.date_range('20230605', periods=4, freq= 'M')
+datas2 = pd.date_range('20231024', periods=4, freq= 'D')
 
+df2 = pd.DataFrame({" CODIGO":range(4),
+                    #"DATA":pd.Timestamp('20231024'),
+                    "COMPRA":datas,
+                    "PARCELAS":pd.Series(random.randint(2, 8) , index=list(range(4)), dtype='float32'),
+                    "QNT":np.array([3]*4, dtype='int32'),
+                    "PAGAMENTO":pd.Categorical([dinheiro, cartaocredito, pix, cartaodebito]),
+                    "LOJA":'VEST PE CALÇADOS',
+                    "VENDA":datas2,
+                    "TOTAL" : pd.Series(random.randint(2,8) * np.array([3]*4)),
+                    })
+
+print(df2)
 
 
 print(" =============================================================")
