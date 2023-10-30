@@ -10,14 +10,19 @@ print("==============================================================")
 def pagamento():
     print("|_____________________________________________________________|")
     print("|                   Meios de Pagamentos                       |")
+    global dinheiro
     dinheiro = 1
     print('| 1 - Dinheiro                                                |')
+    global cartaocredito
     cartaocredito = 2
     print('| 2 - Carão de Crédito                                        |')
+    global cartaodebito
     cartaodebito = 3
     print('| 3 - Débito                                                  |')
+    global pix
     pix = 4
     print('| 4 - Pix                                                     |')
+    global boleto
     boleto = 5
     print('| 5 - Boleto                                                  |')
     print('|_____________________________________________________________|')
@@ -37,26 +42,30 @@ def pagamento():
 def processo():
     print(" =============================================================")
     print('                           STATUS                              ')
+    global aprovado
     aprovado = 1
     print('| Aprovado                                                    |')
+    global analise
     analise = 2
     print('| Analise                                                     |')
+    global rejeitado
     rejeitado = 3
     print('| Rejeitado                                                   |')
     print('|_____________________________________________________________|')
-
-    x = random.randint(1,3)
+    
+ 
+    y = random.randint(2,3)
     for i in tqdm (range (100),
                 colour='#FFD700',
                desc="Verificando Status...",
                ascii=False, ncols=80):
                time.sleep(0.03)
     time.sleep(2)
-    if x  == 1:
+    if y  == 1:
         print(f'Staus : {aprovado} - Apravado')     
-    elif x == 2:
+    elif y == 2:
         print(f'Status : {analise} - Analise') 
-    elif x == 3:
+    elif y == 3:
         print(f'Status : {rejeitado} - Rejeitado')      
     now = datetime.datetime.now()
     print(f'Atualizado : {now}')
@@ -71,6 +80,9 @@ for i in tqdm (range (100),
 
 pagamento()
 processo()
+
+print(f'Forma de pagamento : {dinheiro}')
+
 
 
 
