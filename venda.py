@@ -1,105 +1,91 @@
 import random
 import time
-import datetime
-from tqdm import tqdm
-import pandas as pd
-import numpy as np
 
-print("==============================================================")
-print("                          VENDA                               ")
-print("==============================================================")
+from pagamentos import pagamento, processo
 
-def pagamento():
-    print("|_____________________________________________________________|")
-    print("|                   Meios de Pagamentos                       |")
-    global dinheiro
-    dinheiro = 1
-    print('| 1 - Dinheiro                                                |')
-    global cartaocredito
-    cartaocredito = 2
-    print('| 2 - Carão de Crédito                                        |')
-    global cartaodebito
-    cartaodebito = 3
-    print('| 3 - Débito                                                  |')
-    global pix
-    pix = 4
-    print('| 4 - Pix                                                     |')
-    global boleto
-    boleto = 5
-    print('| 5 - Boleto                                                  |')
-    print('|_____________________________________________________________|')
+class Produto():
+    def cadastrar():
+        global cadastro
+        cadastro = str(input('Informe o Produto : '))
+    def alterar():
+        alterar = str(input(f'Altere o produto {cadastro}'))
+    def deleta():
+        print('Deletar Item S/N : ')
+        delet = str(input('Deseja Deletar Item : '))
+        if delet == 'S':
+            if cadastro == cadastro:
+                deletar = cadastro.remove(f'{cadastro}')
+        else:
+            print('Item não Deletado !')
+        return deletar
+class Cliente():
+    def cadastrar():
+        global cadcliente
+        cadcliente = str(input('Informe o cliente : '))
+    def alterar():
+        altcliente = str(input(f'Alterar Cliente {cadcliente}'))
+    def deletar():
+        delet = str(input('Deseja Deletar Cliente : '))
+        if delet == 'S':
+            if cadcliente == cadcliente:
+                deletar = cadcliente.remove(f'{cadcliente}')
+        else:
+            print('Cliente não Deletado !')
+        return deletar
+        
+class Valores():
 
-    x = int(input("Informa a opção de Pagamento : "))
-    if x == 1 :
-        print(f'Pagamento : {dinheiro} - Dinheiro')
-    elif x == 2 :
-        print(f'Pagamento : {cartaocredito} - Cartão Crédito')
-    elif x == 3 :
-        print(f'Pagamento : {cartaodebito} - Débito')
-    elif x == 4 :
-        print(f'Pagamento : {pix} - Pix')
-    elif x == 5 :
-        print(f'Pagamento : {boleto} - Boleto')
-
-def processo():
-    print(" =============================================================")
-    print('                           STATUS                              ')
-    global aprovado
-    aprovado = 1
-    print('| Aprovado                                                    |')
-    global analise
-    analise = 2
-    print('| Analise                                                     |')
-    global rejeitado
-    rejeitado = 3
-    print('| Rejeitado                                                   |')
-    print('|_____________________________________________________________|')
-    
- 
-    y = random.randint(2,3)
-    for i in tqdm (range (100),
-                colour='#FFD700',
-               desc="Verificando Status...",
-               ascii=False, ncols=80):
-               time.sleep(0.03)
-    time.sleep(2)
-    if y  == 1:
-        print(f'Staus : {aprovado} - Apravado')     
-    elif y == 2:
-        print(f'Status : {analise} - Analise') 
-    elif y == 3:
-        print(f'Status : {rejeitado} - Rejeitado')      
-    now = datetime.datetime.now()
-    print(f'Atualizado : {now}')
-    
-
-for i in tqdm (range (100),
-                colour='CYAN',
-               desc="Conectando...",
-               ascii=False, ncols=80):
-               time.sleep(0.03)
+    def valores():
+        global valor
+        global somar
+        global quantidade
+        global desconto
+        global pagar
+        valor = int(input('Informe o valor : '))
+        quantidade = int(input('Informe a quantidade : '))
+        somar = valor * quantidade
+        desconto = somar / 5
+        pagar = somar - desconto
+    def resumovenda():
+        print(f'Valor Total dos Itens : {somar} R$ | Desconto {desconto} R$ | Valor a Pagar  : {pagar} R$' ) 
+        
 
 
-pagamento()
+print('=================================================================')
+print('                          PRODUTOS                                ')
+print('=================================================================')
+
+print(' ================================================================')
+print('|                            MENU                                |')
+print('| 1 - Vendas                                                     |')
+print('| 2 - Pagamentos                                                 |')
+print('| 3 - Sair                                                       |')
+print('|________________________________________________________________|')
+prod =  int(input("Selecione a opção  :"))
+cad = 1
+alt = 2
+dell = 3
+if  prod == 1:
+    Produto.cadastrar()
+    pagamento()
+elif alt == 2:
+    pagamento()
+
+elif dell == 3:
+    Produto.deleta()
+
+print('__________________________________________________________________')
+
+def resumo():
+    print(f'Cliente : {cadcliente}')
+    print(f'Produto : {cadastro}')
+    Valores.resumovenda()
+
+
+Cliente.cadastrar()
+Valores.valores()
+print('__________________________________________________________________')
+print('                             RESUMO                               ')
+resumo()
+time.sleep(1)
 processo()
-
-print(f'Forma de pagamento : {dinheiro}')
-
-datas = pd.date_range('20230605', periods=4, freq= 'M')
-datas2 = pd.date_range('20231024', periods=4, freq= 'D')
-
-df2 = pd.DataFrame({" CODIGO":range(4),
-                    #"DATA":pd.Timestamp('20231024'),
-                    "COMPRA":datas,
-                    "PARCELAS":pd.Series(random.randint(2, 8) , index=list(range(4)), dtype='float32'),
-                    "QNT":np.array([3]*4, dtype='int32'),
-                    "PAGAMENTO":pd.Categorical([dinheiro, cartaocredito, pix, cartaodebito]),
-                    "LOJA":'VEST PE CALÇADOS',
-                    "VENDA":datas2,
-                    "TOTAL" : pd.Series(random.randint(2,8) * np.array([3]*4)),
-                    })
-
-print(df2)
-
-
-print(" =============================================================")
